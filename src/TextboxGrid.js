@@ -18,7 +18,13 @@ class TextboxGrid extends React.Component {
   render () {
     return (
       <Grid item xs={12} style={containerStyle}>
-        <TextField variant="filled" placeholder="Type you message here..." style={chatBoxStyle} />
+        <TextField variant="filled" placeholder="Type you message here..." style={chatBoxStyle} onKeyPress={(ev) => {
+          if (ev.key === 'Enter') {
+            this.props.onMessageEnter(ev.target.value)
+            ev.target.value = ''
+            ev.preventDefault()
+          }
+        }} />
       </Grid>
     )
   }

@@ -28,7 +28,9 @@ const styles = theme => ({
   },
   messageContainer: {
     height: $(document).height() - 200,
-    padding: '10px 20px 10px 10px'
+    padding: '10px 20px 10px 10px',
+    overflow: 'scroll',
+    display: 'block'
   }
 });
 
@@ -39,6 +41,22 @@ class Main extends React.Component {
     this.state = {
       messages: []
     }
+    this.messagesEnd = null
+  }
+
+  handleMessageEnter(text) {
+    if (text) {
+      const message = {
+        user: 'You',
+        text: text,
+        time: new Date()
+      }
+      this.setState({
+        messages: this.state.messages.concat(message)
+      })
+      this.messagesEnd.scrollIntoView({behavior: 'smooth'})
+      $(this.messagesEnd).scrollTop += 100000
+    }
   }
 
   render() {
@@ -48,13 +66,22 @@ class Main extends React.Component {
         <Grid container justify="center">
           <Grid item xs={12} sm={10} md={8} lg={6}>
             <Paper className={classes.paper}>
-              <Grid item xs={12} className={classes.header}>
-                <Typography variant="h4">Becky!</Typography>
+                <Grid container>
+                <Grid item xs={12} className={classes.header}>
+                  <Typography variant="h4">Becky!</Typography>
+                </Grid>
+                <Grid item xs={12} id="messageContainer" className={classes.messageContainer}>
+                  {
+                    this.state.messages.map((message, i) => (
+                      <Message key={i} message={message} />
+                    ))
+                  }
+                  <div ref={(el) => { this.messagesEnd = el; }} style={{height: '100px'}}></div>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextboxGrid onMessageEnter={(message) => this.handleMessageEnter(message)} />
+                </Grid>
               </Grid>
-              <Grid item xs={12} className={classes.messageContainer}>
-                <Message />
-              </Grid>
-              <TextboxGrid />
             </Paper>
           </Grid>
         </Grid>

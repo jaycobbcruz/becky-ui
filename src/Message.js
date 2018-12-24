@@ -22,17 +22,17 @@ function Message(props) {
     <Grid container className="chatbox-entry-container">
       <Grid item xs={2}>
         <Grid container justify="center">
-          <Avatar alt="You" src="/images/avatar.png" className={classes.avatar} />
+          <Avatar alt={ props.user } src="/images/avatar.png" className={classes.avatar} />
         </Grid>
       </Grid>
       <Grid item xs={9} className="bubble-left">
         <Grid container>
           <Typography variant="subtitle2">You</Typography>
           &nbsp;
-          <Typography variant="body1"><Moment date={new Date()} format="DD MMM YYYY HH:mm"/></Typography>
+          <Typography variant="body1"><Moment date={props.date} format="DD MMM YYYY HH:mm"/></Typography>
         </Grid>
         <Grid container>
-          This property can help a person know which element has the keyboard focus. The class name will be applied when the element gain the focus through a keyboard interaction. It's a polyfill for the CSS :focus-visible feature. The rational for using this feature is explain here.
+          { props.message.text }
         </Grid>
       </Grid>
     </Grid>
