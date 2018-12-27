@@ -22,14 +22,16 @@ function Message(props) {
     <Grid container className="chatbox-entry-container">
       <Grid item xs={2}>
         <Grid container justify="center">
-          <Avatar alt={ props.user } src="/images/avatar.png" className={classes.avatar} />
+          <Avatar alt={ props.message.user }
+                  src={props.message.user === 'Becky' ? '/images/becky.jpeg' : '/images/avatar.png'}
+                  className={classes.avatar} />
         </Grid>
       </Grid>
       <Grid item xs={9} className="bubble-left">
         <Grid container>
-          <Typography variant="subtitle2">You</Typography>
+          <Typography variant="subtitle2">{props.message.user}</Typography>
           &nbsp;
-          <Typography variant="body1"><Moment date={props.date} format="DD MMM YYYY HH:mm"/></Typography>
+          <Typography variant="body1"><Moment date={props.message.time} format="DD MMM YYYY HH:mm"/></Typography>
         </Grid>
         <Grid container>
           { props.message.text }

@@ -44,19 +44,34 @@ class Main extends React.Component {
     this.messagesEnd = null
   }
 
+  componentDidMount() {
+    this.connection = new WebSocket('ws://localhost:8080/ws')
+    this.connection.onmessage = evt => {
+      this.addMessage('Becky', evt.data)
+    }
+  }
+
   handleMessageEnter(text) {
     if (text) {
-      const message = {
-        user: 'You',
-        text: text,
-        time: new Date()
-      }
-      this.setState({
-        messages: this.state.messages.concat(message)
-      })
-      this.messagesEnd.scrollIntoView({behavior: 'smooth'})
-      $(this.messagesEnd).scrollTop += 100000
+      this.appendUserMessage(text)
     }
+  }
+
+  appendUserMessage(text) {
+    this.addMessage('You', text)
+    this.connection.send(text)
+  }
+
+  addMessage(user, text) {
+    const message = {
+      user: user,
+      text: text,
+      time: new Date()
+    }
+    this.setState({
+      messages: this.state.messages.concat(message)
+    })
+    this.messagesEnd.scrollIntoView({behavior: 'smooth'})
   }
 
   render() {
@@ -76,7 +91,7 @@ class Main extends React.Component {
                       <Message key={i} message={message} />
                     ))
                   }
-                  <div ref={(el) => { this.messagesEnd = el; }} style={{height: '100px'}}></div>
+                  <div ref={(el) => { this.messagesEnd = el; }} style={{height: '10px'}} />
                 </Grid>
                 <Grid item xs={12}>
                   <TextboxGrid onMessageEnter={(message) => this.handleMessageEnter(message)} />
