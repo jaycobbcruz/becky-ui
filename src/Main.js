@@ -45,7 +45,7 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
-    this.connection = new WebSocket('ws://localhost:8080/ws')
+    this.connection = new WebSocket(process.env.REACT_APP_BECKY_WEB_SOCKET_URL)
     this.connection.onmessage = evt => {
       this.addMessage('Becky', evt.data)
     }

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: becky-ui
+  labels:
+    app: becky-ui
+    service: becky-ui
+    tier: frontend
+spec:
+  type: NodePort
+  # type: LoadBalancer
+  ports:
+    - port: 80
+  selector:
+    app: becky-ui
+    service: becky-ui
+    tier: frontend
